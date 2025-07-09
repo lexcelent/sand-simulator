@@ -157,25 +157,18 @@ func (g *Game) Update() error {
 	// Проходимся по каждой строке. В каждой строке проходимся по столбцу
 	for x := 0; x < gridHeight-1; x++ {
 		for y := 0; y < gridWidht-1; y++ {
-			if g.currentGrid[x][y] == Sand {
+			switch g.currentGrid[x][y] {
+			case Sand:
 				// Обработка песка
 				g.UpdateSand(x, y)
-			}
-
-			if g.currentGrid[x][y] == Water {
+			case Water:
 				// Обрабатка воды
 				g.UpdateWater(x, y)
-			}
-
-			if g.currentGrid[x][y] == Stone {
+			case Stone:
 				g.nextGrid[x][y] = Stone
-			}
-
-			if g.currentGrid[x][y] == Cloud {
+			case Cloud:
 				g.nextGrid[x][y] = Cloud
-			}
-
-			if g.currentGrid[x][y] == Snow {
+			case Snow:
 				g.UpdateSnow(x, y)
 			}
 		}
@@ -316,24 +309,24 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	// Отрисовка песка
 	for x := 0; x < gridHeight; x++ {
 		for y := 0; y < gridWidht; y++ {
-
-			if g.currentGrid[x][y] == Sand {
+			switch g.currentGrid[x][y] {
+			case Sand:
 				// Если здесь есть песок, то нужно его создать и отрисовать
 				vector.DrawFilledRect(screen, float32(x), float32(y), float32(1*pixelSize), float32(1*pixelSize), YELLOW, false)
 				g.sandCount++
-			} else if g.currentGrid[x][y] == Water {
+			case Water:
 				// Если здесь вода, нужно создать и отрисовать
 				vector.DrawFilledRect(screen, float32(x), float32(y), float32(1*pixelSize), float32(1*pixelSize), BLUE, false)
 				g.waterCount++
-			} else if g.currentGrid[x][y] == Stone {
+			case Stone:
 				vector.DrawFilledRect(screen, float32(x), float32(y), float32(1*pixelSize), float32(1*pixelSize), GRAY, false)
-			} else if g.currentGrid[x][y] == Cloud {
-				// Рисуем облако (загружаем картинку)
+			case Cloud:
+				// Рисуем облако (загружаем картинку) и добавляем падающую воду
 				op := &ebiten.DrawImageOptions{}
 				op.GeoM.Translate(float64(x), float64(y))
 				screen.DrawImage(cloudImage, op)
 				g.nextGrid[x+15][y+10] = Water
-			} else if g.currentGrid[x][y] == Snow {
+			case Snow:
 				vector.DrawFilledRect(screen, float32(x), float32(y), float32(1*pixelSize), float32(1*pixelSize), WHITE, false)
 			}
 
