@@ -19,10 +19,10 @@ import (
 /*
 TODO: Проверить левые и правые границы экрана (иначе index out of range)
 TODO: Вместо сетки состояний создать объекты (напр. SAND), которые проверяют коллизии под собой (или с другими объектами)
+TODO: Добавить velocity (вода, снег и песок могут падать с разной скоростью)
 
 Later:
-TODO: Осуществить работу с увеличенными пикселями (иначе пиксели накладываются друг на друга)
-Задача отложена, т.к. для этого возможно нужен полностью другой код
+TODO: Приблизить камеру, чтобы пиксели не казались такими маленькими
 */
 
 func main() {
@@ -296,6 +296,21 @@ func (g *Game) UpdateWater(x, y int) {
 			g.nextGrid[x+1][y] = Water
 		}
 	}
+}
+
+// TODO: Отрисовка песка.
+// Задумка состоит в том, чтобы песок состоял не из одного цвета.
+func (g *Game) DrawSand(screen *ebiten.Image, x, y, pixelSize int) {
+	// Набор желтых цветов
+	yellow1, yellow2, yellow3 := color.RGBA{255, 255, 0, 0}, color.RGBA{255, 219, 0, 0}, color.RGBA{255, 139, 0, 0}
+
+	const size = 3
+	yellows := [size]color.RGBA{yellow1, yellow2, yellow3}
+
+	// Выбираем цвет из доступных наугад
+	randIndx := rand.Intn(size)
+
+	vector.DrawFilledRect(screen, float32(x), float32(y), float32(1*pixelSize), float32(1*pixelSize), yellows[randIndx], false)
 }
 
 func (g *Game) Draw(screen *ebiten.Image) {
