@@ -1,6 +1,11 @@
 # Sand Simulator
 
-This is implementation of falling sand using `ebitengine`. Inspired by Noita - the game by Nolla Games. / Здесь находится реализация падающего песка с использованием `ebitengine`. Проект вдохновлен игрой Noita - от разработчиков Nolla Games.
+Cellular Automaton: https://en.wikipedia.org/wiki/Cellular_automaton  
+Клеточный автомат: https://ru.wikipedia.org/wiki/Клеточный_автомат
+
+This is implementation of falling sand using `ebitengine`. Inspired by Noita - the game by Nolla Games.  
+
+Здесь находится реализация падающего песка с использованием `ebitengine`. Проект вдохновлен игрой Noita - от разработчиков Nolla Games.
 
 ## Algorithm
 
@@ -11,9 +16,17 @@ This is implementation of falling sand using `ebitengine`. Inspired by Noita - t
 1. Если под пикселем пусто - переместить пиксель вниз
 2. Если пусто снизу слева или снизу справа - переместить пиксель случайным образом в одну из двух клеток.
 
+| | | |
+| |o| |
+|x|x|x|
+
 Алгоритм для воды:
 1. Если под пикселем пусто - переместить пиксель вниз
 2. Если пусто слева или справа - переместить пиксель случайным образом в одну из двух клеток.
+
+| | | |
+|x|o|x|
+| |x| |
 
 ## Install
 
