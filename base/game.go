@@ -42,7 +42,7 @@ func (g *Game) Update() error {
 
 	if inpututil.IsKeyJustPressed(ebiten.Key2) {
 		// Выбрать воду
-
+		g.currentMaterial = utils.Water
 	}
 
 	if inpututil.IsKeyJustPressed(ebiten.KeyR) {
@@ -55,8 +55,13 @@ func (g *Game) Update() error {
 	}
 
 	if g.drag {
+		// TODO: не работает currentMaterial
 		x, y := ebiten.CursorPosition()
-		g.CurrentGrid[x][y] = NewSand(x, y)
+		if g.currentMaterial == utils.Sand {
+			g.CurrentGrid[x][y] = NewSand(x, y)
+		} else {
+			g.CurrentGrid[x][y] = NewWater(x, y)
+		}
 	}
 
 	if inpututil.IsMouseButtonJustReleased(ebiten.MouseButtonLeft) {
@@ -70,15 +75,7 @@ func (g *Game) Update() error {
 
 			// TODO: Здесь должно быть что-то вроде g.CurrentGrid[x][y].Update() и больше ничего
 			// Вся логика будет описана в апдейте каждого элемента
-
-			if g.CurrentGrid[x][y].NameID() == utils.Sand {
-				if g.CurrentGrid[x][y+1].NameID() == utils.Empty {
-					// Если под пикселем пусто, то перемещаем пиксель вниз
-					// Текущую сетку не меняем!!!
-					g.NextGrid[x][y] = NewEmpty(x, y)
-					g.NextGrid[x][y+1] = NewSand(x, y)
-				}
-			}
+			g.CurrentGrid[x][y].Update(g)
 
 			// switch g.currentGrid[x][y].NameID() {
 			// case utils.Sand:
