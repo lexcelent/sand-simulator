@@ -2,8 +2,7 @@ package main
 
 import (
 	"github.com/hajimehoshi/ebiten/v2"
-
-	"github.com/lexcelent/sand-simulator/base"
+	"github.com/lexcelent/sand-simulator/src"
 )
 
 const (
@@ -20,7 +19,7 @@ const (
 )
 
 func main() {
-	g := base.NewWorld(gridWidht, gridHeight)
+	g := src.NewWorld(gridWidht, gridHeight)
 
 	g.Reset() // Избавляемся от nil
 

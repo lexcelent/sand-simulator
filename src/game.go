@@ -1,4 +1,4 @@
-package base
+package src
 
 import (
 	"fmt"
@@ -72,17 +72,7 @@ func (g *Game) Update() error {
 	// Проходимся по каждой строке. В каждой строке проходимся по столбцу
 	for x := 0; x < gridHeight-1; x++ {
 		for y := 0; y < gridWidht-1; y++ {
-
-			// TODO: Здесь должно быть что-то вроде g.CurrentGrid[x][y].Update() и больше ничего
-			// Вся логика будет описана в апдейте каждого элемента
 			g.CurrentGrid[x][y].Update(g)
-
-			// switch g.currentGrid[x][y].NameID() {
-			// case utils.Sand:
-			// 	// Обработка песка
-			// case utils.Water:
-			// 	// Обрабатка воды
-			// }
 		}
 	}
 
@@ -93,23 +83,14 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	g.waterCount = 0
 	g.sandCount = 0
 
-	// отрисую допустимую сетку
+	// TODO: Обработать index out of range
 	vector.StrokeLine(screen, float32(gridHeight), 0, float32(gridHeight), float32(gridWidht), float32(pixelSize), utils.RED, false)
-	// vector.StrokeLine(screen, 0, float32(gridWidht), float32(gridHeight), float32(gridWidht), float32(pixelSize), RED, false)
 
-	// Отрисовка песка
+	// Отрисовка
 	for x := 0; x < gridHeight; x++ {
 		for y := 0; y < gridWidht; y++ {
-			switch g.CurrentGrid[x][y].NameID() {
-			case utils.Sand:
-				// Если здесь есть песок, то нужно его создать и отрисовать
-				vector.DrawFilledRect(screen, float32(x), float32(y), float32(1*pixelSize), float32(1*pixelSize), utils.YELLOW, false)
-				g.sandCount++
-			case utils.Water:
-				// Если здесь вода, нужно создать и отрисовать
-				vector.DrawFilledRect(screen, float32(x), float32(y), float32(1*pixelSize), float32(1*pixelSize), utils.BLUE, false)
-				g.waterCount++
-			}
+			g.CurrentGrid[x][y].Draw(screen)
+
 			// Текущее состояние теперь отрисовано. Обновляем текущее состояние
 			g.CurrentGrid[x][y] = g.NextGrid[x][y]
 		}

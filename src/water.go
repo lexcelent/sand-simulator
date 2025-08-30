@@ -1,9 +1,11 @@
-package base
+package src
 
 import (
 	"image/color"
 	"math/rand"
 
+	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/vector"
 	"github.com/lexcelent/sand-simulator/utils"
 )
 
@@ -67,4 +69,8 @@ func (w *Water) Update(g *Game) {
 			g.NextGrid[w.x+1][w.y] = NewWater(w.x+1, w.y)
 		}
 	}
+}
+
+func (w *Water) Draw(screen *ebiten.Image) {
+	vector.DrawFilledRect(screen, float32(w.x), float32(w.y), float32(1*pixelSize), float32(1*pixelSize), w.color, false)
 }

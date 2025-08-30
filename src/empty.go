@@ -1,6 +1,9 @@
-package base
+package src
 
-import "github.com/lexcelent/sand-simulator/utils"
+import (
+	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/lexcelent/sand-simulator/utils"
+)
 
 // Empty element
 type NoMaterial struct {
@@ -21,4 +24,8 @@ func NewEmpty(x, y int) *NoMaterial {
 		Coord{x, y},
 		utils.Empty,
 	}
+}
+
+func (m *NoMaterial) Draw(screen *ebiten.Image) {
+
 }

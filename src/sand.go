@@ -1,9 +1,11 @@
-package base
+package src
 
 import (
 	"image/color"
 	"math/rand"
 
+	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/vector"
 	"github.com/lexcelent/sand-simulator/utils"
 )
 
@@ -17,6 +19,7 @@ type Sand struct {
 // Update solid element
 func (s *Sand) Update(g *Game) {
 	// TODO: иногда вместо NEW стоит сделать какой-нибудь SWAP или MOVE
+	// TODO: Не нравится вызов NameID... Но возможно это правильно
 
 	if g.CurrentGrid[s.x][s.y+1].NameID() == utils.Empty {
 		// Если под пикселем пусто, то перемещаем пиксель вниз
@@ -50,13 +53,28 @@ func (s *Sand) Update(g *Game) {
 	}
 }
 
+func (s *Sand) Draw(screen *ebiten.Image) {
+	vector.DrawFilledRect(screen, float32(s.x), float32(s.y), float32(1*pixelSize), float32(1*pixelSize), s.color, false)
+}
+
 func (s *Sand) NameID() int {
 	return s.name
 }
 
 func NewSand(x, y int) *Sand {
+
+	// Оттенки желтого
+	colors := []color.RGBA{
+		color.RGBA{255, 255, 0, 0},
+		color.RGBA{255, 207, 64, 0},
+		color.RGBA{244, 169, 0, 0},
+		color.RGBA{205, 164, 52, 0},
+	}
+	randomIndex := rand.Intn(len(colors))
+
 	return &Sand{
 		Coord: Coord{x: x, y: y},
-		color: utils.YELLOW,
-		name:  utils.Sand}
+		color: colors[randomIndex],
+		name:  utils.Sand,
+	}
 }
